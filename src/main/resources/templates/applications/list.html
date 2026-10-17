@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Job applications</title>
+    <style>
+        body { font-family: sans-serif; margin: 24px; }
+        table { border-collapse: collapse; width: 100%; margin-top: 16px; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        form.inline { display: inline; }
+        .filters, .create { margin-bottom: 16px; }
+        .flash { color: #0a0; }
+    </style>
+</head>
+<body>
+<h1>Job applications</h1>
+<p class="flash" th:if="${message}" th:text="${message}"></p>
+
+<form class="filters" method="get" th:action="@{/applications}">
+    <input type="text" name="q" placeholder="Search" th:value="${q}"/>
+    <input type="text" name="company" placeholder="Company" th:value="${company}"/>
+    <select name="status">
+        <option value="">All statuses</option>
+        <option th:each="s : ${statuses}" th:value="${s}" th:text="${s}"
+                th:selected="${s == status}"></option>
+    </select>
+    <select name="stage">
+        <option value="">All stages</option>
+        <option th:each="st : ${stages}" th:value="${st}" th:text="${st}"
+                th:selected="${st == stage}"></option>
+    </select>
+    <button type="submit">Filter</button>
+</form>
+
+<form class="create" method="post" th:action="@{/applications}">
+    <input name="company" placeholder="Company" required/>
+    <input name="position" placeholder="Position" required/>
+    <input name="location" placeholder="Location" required/>
+    <input type="date" name="appliedOn" required/>
+    <select name="status">
+        <option th:each="s : ${statuses}" th:value="${s}" th:text="${s}"></option>
+    </select>
+    <select name="stage">
+        <option th:each="st : ${stages}" th:value="${st}" th:text="${st}"></option>
+    </select>
+    <button type="submit">Add</button>
+</form>
+
+<table>
+    <thead>
+    <tr>
+        <th>
+            <a th:href="@{/applications(sort='id', q=${q}, company=${company}, status=${status}, stage=${stage})}">Id</a>
+        </th>
+        <th><a th:href="@{/applications(sort='company', q=${q}, company=${company}, status=${status}, stage=${stage})}">Company</a>
+        </th>
+        <th>
+            <a th:href="@{/applications(sort='position', q=${q}, company=${company}, status=${status}, stage=${stage})}">Position</a>
+        </th>
+        <th>
+            <a th:href="@{/applications(sort='location', q=${q}, company=${company}, status=${status}, stage=${stage})}">Location</a>
+        </th>
+        <th>
+            <a th:href="@{/applications(sort='appliedOn,desc', q=${q}, company=${company}, status=${status}, stage=${stage})}">Applied</a>
+        </th>
+        <th><a th:href="@{/applications(sort='status', q=${q}, company=${company}, status=${status}, stage=${stage})}">Status</a>
+        </th>
+        <th><a th:href="@{/applications(sort='stage', q=${q}, company=${company}, status=${status}, stage=${stage})}">Stage</a>
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${page.empty}">
+        <td colspan="7">No applications</td>
+    </tr>
+    <tr th:each="app : ${applications}">
+        <td><a th:href="@{/applications/{id}(id=${app.id})}" th:text="${app.id}"></a></td>
+        <td th:text="${app.company}"></td>
+        <td th:text="${app.position}"></td>
+        <td th:text="${app.location}"></td>
+        <td th:text="${app.appliedOn}"></td>
+        <td th:text="${app.status}"></td>
+        <td th:text="${app.stage}"></td>
+        <td>
+            <form class="inline" method="post" th:action="@{/applications/{id}/delete(id=${app.id})}"
+                  onsubmit="return confirm('Delete this application?');">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<p>
+    Page <span th:text="${page.number + 1}"></span> of
+    <span th:text="${page.totalPages == 0 ? 1 : page.totalPages}"></span>
+    (<span th:text="${page.totalElements}"></span> total)
+    <a th:if="${page.hasPrevious()}"
+       th:href="@{/applications(page=${page.number - 1}, sort=${page.sort}, q=${q}, company=${company}, status=${status}, stage=${stage})}">Prev</a>
+    <a th:if="${page.hasNext()}"
+       th:href="@{/applications(page=${page.number + 1}, sort=${page.sort}, q=${q}, company=${company}, status=${status}, stage=${stage})}">Next</a>
+</p>
+</body>
+</html>

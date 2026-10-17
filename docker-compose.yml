@@ -1,0 +1,29 @@
+services:
+  job-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: job-app-service:1.0.0
+    container_name: job-app-service
+    ports:
+      - "8082:8082"
+    environment:
+      JAVA_OPTS: "-XX:MaxRAMPercentage=75.0"
+      SERVER_PORT: "8082"
+      SPRING_APPLICATION_NAME: job-app-service
+      SPRING_DATASOURCE_URL: "jdbc:h2:file:/app/data/jobappdata;DB_CLOSE_DELAY=-1;NON_KEYWORDS=USER"
+      SPRING_DATASOURCE_USERNAME: sa
+      SPRING_DATASOURCE_PASSWORD: ""
+      SPRING_H2_CONSOLE_ENABLED: "false"
+    volumes:
+      - job-app-data:/app/data
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8082/actuator/health"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+
+volumes:
+  job-app-data:

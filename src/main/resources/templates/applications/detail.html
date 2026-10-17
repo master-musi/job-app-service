@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="'Application #' + ${jobApplication.id}"></title>
+</head>
+<body>
+<p><a th:href="@{/applications}">Back</a></p>
+<h1 th:text="${jobApplication.company} + ' — ' + ${jobApplication.position}"></h1>
+<ul>
+    <li><strong>Id:</strong> <span th:text="${jobApplication.id}"></span></li>
+    <li><strong>Applied:</strong> <span th:text="${jobApplication.appliedOn}"></span></li>
+    <li><strong>Status:</strong> <span th:text="${jobApplication.status}"></span></li>
+    <li><strong>Stage:</strong> <span th:text="${jobApplication.stage}"></span></li>
+    <li><strong>Location:</strong> <span th:text="${jobApplication.location}"></span></li>
+    <li><strong>Source:</strong> <span th:text="${jobApplication.source}"></span></li>
+    <li><strong>Recruiter:</strong> <span th:text="${jobApplication.recruiterName}"></span></li>
+    <li><strong>Notes:</strong> <span th:text="${jobApplication.notes}"></span></li>
+</ul>
+
+<p>
+    <a th:href="@{/applications/{id}/edit(id=${jobApplication.id})}">Edit</a>
+</p>
+
+</body>
+</html>

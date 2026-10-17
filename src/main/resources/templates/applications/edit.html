@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="'Edit #' + ${jobApplication.id}"></title>
+</head>
+<body>
+<p><a th:href="@{/applications/{id}(id=${jobApplication.id})}">Back</a></p>
+<h1 th:text="'Edit ' + ${jobApplication.company}"></h1>
+
+<form method="post" th:action="@{/applications/{id}/edit(id=${jobApplication.id})}">
+    <p>
+        <label><strong>Status</strong></label><br/>
+        <select name="status">
+            <option th:each="s : ${statuses}"
+                    th:value="${s}"
+                    th:text="${s}"
+                    th:selected="${s == jobApplication.status}"></option>
+        </select>
+    </p>
+    <p>
+        <label><strong>Stage</strong></label><br/>
+        <select name="stage">
+            <option th:each="st : ${stages}"
+                    th:value="${st}"
+                    th:text="${st}"
+                    th:selected="${st == jobApplication.stage}"></option>
+        </select>
+    </p>
+    <p>
+        <label><strong>Location</strong></label><br/>
+        <input name="location" th:value="${jobApplication.location}"/>
+    </p>
+    <p>
+        <label><strong>Source</strong></label><br/>
+        <input name="source" th:value="${jobApplication.source}"/>
+    </p>
+    <p>
+        <label><strong>Recruiter</strong></label><br/>
+        <input name="recruiterName" th:value="${jobApplication.recruiterName}"/>
+    </p>
+    <p>
+        <label><strong>Recruiter email</strong></label><br/>
+        <input name="recruiterEmail" th:value="${jobApplication.recruiterEmail}"/>
+    </p>
+    <p>
+        <label><strong>Notes</strong></label><br/>
+        <textarea name="notes" rows="5" cols="60" th:text="${jobApplication.notes}"></textarea>
+    </p>
+    <button type="submit">Save</button>
+</form>
+</body>
+</html>

@@ -1,6 +1,7 @@
 package net.example.controllers;
 
 import lombok.RequiredArgsConstructor;
+import net.example.config.PaginationProperties;
 import net.example.entities.JobApplication;
 import net.example.enums.ApplicationStage;
 import net.example.enums.ApplicationStatus;
@@ -8,19 +9,15 @@ import net.example.models.JobApplicationPatchRequest;
 import net.example.models.JobApplicationRequest;
 import net.example.services.JobApplicationService;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -28,13 +25,14 @@ import java.util.stream.Collectors;
 public class JobApplicationPageController {
 
     private final JobApplicationService service;
+    private final PaginationProperties properties;
 
     @GetMapping
     public String list(@RequestParam(required = false) String company,
                        @RequestParam(required = false) ApplicationStatus status,
                        @RequestParam(required = false) ApplicationStage stage,
                        @RequestParam(required = false) String q,
-                       @PageableDefault(size = 20, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
+                       @SortDefault(sort = "id") Pageable pageable,
                        Model model) {
 
         Page<JobApplication> page = service.findAll(company, status, stage, null, null, q, pageable);

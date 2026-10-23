@@ -52,7 +52,7 @@
     <thead>
     <tr>
         <th>
-            <a th:href="@{/applications(sort='id', q=${q}, company=${company}, status=${status}, stage=${stage})}">Id</a>
+            <a th:href="@{/applications(sort='id,desc', q=${q}, company=${company}, status=${status}, stage=${stage})}">Id</a>
         </th>
         <th><a th:href="@{/applications(sort='company', q=${q}, company=${company}, status=${status}, stage=${stage})}">Company</a>
         </th>
@@ -63,7 +63,7 @@
             <a th:href="@{/applications(sort='location', q=${q}, company=${company}, status=${status}, stage=${stage})}">Location</a>
         </th>
         <th>
-            <a th:href="@{/applications(sort='appliedOn,desc', q=${q}, company=${company}, status=${status}, stage=${stage})}">Applied</a>
+            <a th:href="@{/applications(sort='appliedOn', q=${q}, company=${company}, status=${status}, stage=${stage})}">Applied</a>
         </th>
         <th><a th:href="@{/applications(sort='status', q=${q}, company=${company}, status=${status}, stage=${stage})}">Status</a>
         </th>

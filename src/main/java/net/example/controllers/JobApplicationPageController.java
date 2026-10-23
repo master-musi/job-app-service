@@ -9,10 +9,8 @@ import net.example.models.JobApplicationPatchRequest;
 import net.example.models.JobApplicationRequest;
 import net.example.services.JobApplicationService;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,7 +30,7 @@ public class JobApplicationPageController {
                        @RequestParam(required = false) ApplicationStatus status,
                        @RequestParam(required = false) ApplicationStage stage,
                        @RequestParam(required = false) String q,
-                       @SortDefault(sort = "id") Pageable pageable,
+                       @SortDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
                        Model model) {
 
         Page<JobApplication> page = service.findAll(company, status, stage, null, null, q, pageable);

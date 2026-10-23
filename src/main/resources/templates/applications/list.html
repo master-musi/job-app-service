@@ -96,10 +96,28 @@
     Page <span th:text="${page.number + 1}"></span> of
     <span th:text="${page.totalPages == 0 ? 1 : page.totalPages}"></span>
     (<span th:text="${page.totalElements}"></span> total)
+
     <a th:if="${page.hasPrevious()}"
-       th:href="@{/applications(page=${page.number - 1}, sort=${page.sort}, q=${q}, company=${company}, status=${status}, stage=${stage})}">Prev</a>
+       th:href="@{/applications(
+           page=${page.number - 1},
+           size=${page.size},
+           sort=|${sortProperty},${sortDirection}|,
+           q=${q},
+           company=${company},
+           status=${status},
+           stage=${stage}
+       )}">Prev</a>
+
     <a th:if="${page.hasNext()}"
-       th:href="@{/applications(page=${page.number + 1}, sort=${page.sort}, q=${q}, company=${company}, status=${status}, stage=${stage})}">Next</a>
+       th:href="@{/applications(
+           page=${page.number + 1},
+           size=${page.size},
+           sort=|${sortProperty},${sortDirection}|,
+           q=${q},
+           company=${company},
+           status=${status},
+           stage=${stage}
+       )}">Next</a>
 </p>
 </body>
 </html>

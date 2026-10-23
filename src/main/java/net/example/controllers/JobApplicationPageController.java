@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.stream.Collectors;
+
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/applications")
@@ -45,6 +47,16 @@ public class JobApplicationPageController {
         model.addAttribute("statuses", ApplicationStatus.values());
         model.addAttribute("stages", ApplicationStage.values());
         model.addAttribute("form", emptyForm());
+
+        Sort sort = pageable.getSort();
+        if (sort.isSorted()) {
+            Sort.Order order = sort.iterator().next();
+            model.addAttribute("sortProperty", order.getProperty());
+            model.addAttribute("sortDirection", order.getDirection().name().toLowerCase());
+        } else {
+            model.addAttribute("sortProperty", "id");
+            model.addAttribute("sortDirection", "desc");
+        }
 
         return "applications/list";
     }

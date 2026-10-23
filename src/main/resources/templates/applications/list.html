@@ -36,7 +36,9 @@
     <input name="company" placeholder="Company" required/>
     <input name="position" placeholder="Position" required/>
     <input name="location" placeholder="Location" required/>
-    <input type="date" name="appliedOn" required/>
+    <input type="date" name="appliedOn"
+           th:value="${#temporals.format(#temporals.createToday(), 'yyyy-MM-dd')}"
+           required/>
     <select name="status">
         <option th:each="s : ${statuses}" th:value="${s}" th:text="${s}"></option>
     </select>
